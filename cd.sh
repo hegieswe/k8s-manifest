@@ -64,11 +64,11 @@ done
 OVERLAY_DIR="overlays/${ENV}"
 [[ -d "$OVERLAY_DIR" ]] || err "Overlay tidak ditemukan: $OVERLAY_DIR"
 
-# Namespace sesuai overlay
+# Namespace sesuai overlay (disesuaikan dengan isi kustomization.yaml)
 case "$ENV" in
-  development) NAMESPACE="dev-hegi-technicaltest-19032026"  ;;
-  staging)     NAMESPACE="sta-hegi-technicaltest-19032026"  ;;
-  production)  NAMESPACE="prod-hegi-technicaltest-19032026" ;;
+  development) NAMESPACE="dev-project"  ;;
+  staging)     NAMESPACE="staging-project"  ;;
+  production)  NAMESPACE="prod-project" ;;
   *) err "Environment tidak valid: $ENV" ;;
 esac
 
