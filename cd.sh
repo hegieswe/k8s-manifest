@@ -61,7 +61,7 @@ done
 # ─────────────────────────────────────────────
 [[ -z "$ENV" ]] && err "Environment wajib diisi. Gunakan: -e development | staging | production"
 
-OVERLAY_DIR="k8s/overlays/${ENV}"
+OVERLAY_DIR="overlays/${ENV}"
 [[ -d "$OVERLAY_DIR" ]] || err "Overlay tidak ditemukan: $OVERLAY_DIR"
 
 # Namespace sesuai overlay
@@ -72,8 +72,8 @@ case "$ENV" in
   *) err "Environment tidak valid: $ENV" ;;
 esac
 
-# Deteksi semua service dari folder k8s/base
-SERVICES=($(ls -d k8s/base/*/ | xargs -n1 basename))
+# Deteksi semua service dari folder base
+SERVICES=($(ls -d base/*/ | xargs -n1 basename))
 info "Ditemukan ${#SERVICES[@]} service: ${SERVICES[*]}"
 
 # Tag extraction logic (Bash 3.2 compatible)
