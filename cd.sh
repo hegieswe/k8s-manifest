@@ -169,7 +169,7 @@ fi
 
 DEPLOY_START=$(date +%s)
 kubectl apply -k "$OVERLAY_DIR"
-mv "$KUST_BACKUP" "$KUST_FILE"
+rm -f "$KUST_BACKUP"
 
 # Tunggu rollout untuk semua service yang ada di overlay ini
 # Gunakan konvensi: Deployment name = gtech-hello-<folder_name>
