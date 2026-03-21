@@ -37,6 +37,7 @@ patches:
             memory: "128Mi"
 
 
+
 images:
   - name: hegieswe/golang-gitops-project
-    newTag: "322adf2"
+    newTag: "56da882"
