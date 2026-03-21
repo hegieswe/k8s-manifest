@@ -36,3 +36,7 @@ patches:
             cpu: "200m"
             memory: "128Mi"
 
+
+images:
+  - name: hegieswe/golang-gitops-project
+    newTag: "322adf2"
