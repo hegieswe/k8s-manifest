@@ -8,4 +8,7 @@ labels:
 resources:
   - ../../base/golang-gitops-project
 patches: []
-images: []
+
+images:
+  - name: hegieswe/golang-gitops-project
+    newTag: "e0e0ff7"
