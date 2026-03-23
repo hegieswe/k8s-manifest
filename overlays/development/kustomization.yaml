@@ -39,6 +39,7 @@ patches:
 
 
 
+
 images:
   - name: hegieswe/golang-gitops-project
-    newTag: "56da882"
+    newTag: "7292ee8"
