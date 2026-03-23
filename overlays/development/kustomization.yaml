@@ -6,33 +6,5 @@ labels:
       environment: development
     includeSelectors: false
 resources:
-  - ../../base/golang-gitops-project
-
-patches:
-  # Golang: replicas=1, image tag=latest, env=development
-  - target:
-      kind: Deployment
-      name: golang-gitops-project
-    patch: |-
-      - op: replace
-        path: /spec/replicas
-        value: 1
-      - op: replace
-        path: /spec/template/spec/containers/0/image
-        value: hegieswe/golang-gitops-project:latest
-      - op: replace
-        path: /spec/template/spec/containers/0/env/0/value
-        value: development
-      - op: replace
-        path: /spec/template/spec/containers/0/resources
-        value:
-          requests:
-            cpu: "50m"
-            memory: "64Mi"
-          limits:
-            cpu: "200m"
-            memory: "128Mi"
-
-images:
-  - name: hegieswe/golang-gitops-project
-    newTag: "7292ee8"
+patches: []
+images: []

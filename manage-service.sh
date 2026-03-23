@@ -187,36 +187,37 @@ elif [[ "$ACTION" == "2" ]]; then
     echo "ℹ️ Direktori $TARGET_DIR tidak ditemukan."
   fi
   
-  # Cabut jalur koneksinya dari overlay resources Kustomize agar tidak error missing component
-  OVERLAY_KUST="overlays/development/kustomization.yaml"
-  if [[ -f "$OVERLAY_KUST" ]]; then
-    if grep -q -e "- ../../base/$SVC_NAME" -e "- \.\.\/\.\.\/base\/$SVC_NAME" "$OVERLAY_KUST"; then
-      # Regex penghapus referensi resource base khusus untuk baris itu
-      perl -pi -e "s/[ \t]*\- \.\.\/\.\.\/base\/$SVC_NAME\n?//g" "$OVERLAY_KUST"
-      echo "✅ Rute referensi dari $OVERLAY_KUST bersih terhapus."
-    fi
-    
-    # Surgical Cleanup dengan "yq" jika terinstal
-    if command -v yq >/dev/null 2>&1; then
-      echo "🧹 Memindai dengan pisau bedah 'yq': Pembersihan Sisa Manifes..."
-      # Hapus elemen array yang mengarah ke service ini
-      yq -i "del(.images[]? | select(.name == \"hegieswe/$SVC_NAME\"))" "$OVERLAY_KUST" 2>/dev/null || true
-      yq -i "del(.patches[]? | select(.target.name == \"$SVC_NAME\"))" "$OVERLAY_KUST" 2>/dev/null || true
+  # Cabut jalur koneksinya dari semua overlay (development, staging, production)
+  for OVERLAY_KUST in overlays/*/kustomization.yaml; do
+    if [[ -f "$OVERLAY_KUST" ]]; then
+      if grep -q -e "- ../../base/$SVC_NAME" -e "- \.\.\/\.\.\/base\/$SVC_NAME" "$OVERLAY_KUST"; then
+        # Regex penghapus referensi resource base khusus untuk baris itu
+        perl -pi -e "s/[ \t]*\- \.\.\/\.\.\/base\/$SVC_NAME\n?//g" "$OVERLAY_KUST"
+        echo "✅ Rute referensi dari $OVERLAY_KUST bersih terhapus."
+      fi
       
-      # Bersihkan Key utamanya jika array sudah kosong
-      yq -i 'if .images == [] then del(.images) else . end' "$OVERLAY_KUST" 2>/dev/null || true
-      yq -i 'if .patches == [] then del(.patches) else . end' "$OVERLAY_KUST" 2>/dev/null || true
-      echo "✅ Seluruh riwayat konfigurasi 'patches' & 'images' di overlay berhasil dilenyapkan total!"
+      # Surgical Cleanup dengan "yq" jika terinstal
+      if command -v yq >/dev/null 2>&1; then
+        echo "🧹 Memindai dengan pisau bedah 'yq': Pembersihan Sisa Manifes $OVERLAY_KUST..."
+        # Hapus elemen array yang mengarah ke service ini
+        yq -i "del(.images[]? | select(.name == \"hegieswe/$SVC_NAME\"))" "$OVERLAY_KUST" 2>/dev/null || true
+        yq -i "del(.patches[]? | select(.target.name == \"$SVC_NAME\"))" "$OVERLAY_KUST" 2>/dev/null || true
+        
+        # Bersihkan Key utamanya jika array sudah kosong
+        yq -i 'if .images == [] then del(.images) else . end' "$OVERLAY_KUST" 2>/dev/null || true
+        yq -i 'if .patches == [] then del(.patches) else . end' "$OVERLAY_KUST" 2>/dev/null || true
+        echo "✅ Seluruh riwayat konfigurasi 'patches' & 'images' di $OVERLAY_KUST berhasil dilenyapkan!"
+      fi
     fi
-  fi
+  done
   
-  echo "🗑️ SELESAI! Seluruh riwayat untuk service '$SVC_NAME' sudah DIHAPUS dari muka repository k8s-manifest!"
+  echo "🗑️ SELESAI! Seluruh riwayat untuk service '$SVC_NAME' sudah DIHAPUS dari muka repository k8s-manifest dan seluruh environments!"
   echo ""
   echo "👉 REKOMENDASI PENGHAPUSAN POD:"
   echo "Untuk memastikan Pod milik service ini juga ikut musnah di server Kubernetes Anda:"
   echo "- Jika memakai ArgoCD GitOps, cukup Commit & Push saja (ArgoCD akan membuangnya otomatis):"
   echo -e "\033[1mgit add . && git commit -m \"del: Menghapus service $SVC_NAME\" && git push\033[0m"
   echo "- TAPI Jika Anda ingin menghapusnya secara lokal secara manual dari K3d:"
-  echo -e "\033[1mkubectl delete deployment $SVC_NAME -n dev-project\033[0m"
+  echo -e "\033[1mkubectl delete deployment $SVC_NAME -n <nama-namespace>\033[0m"
   echo "────────────────────────────────────────────────="
 fi

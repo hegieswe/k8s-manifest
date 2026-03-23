@@ -1,37 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
-resources:
-  - ../../base/golang-gitops-project
-
 namespace: production-project
-
 labels:
   - pairs:
       environment: production
     includeSelectors: false
-
-patches:
-  # Golang: replicas=3, image tag=latest, env=production
-  - target:
-      kind: Deployment
-      name: golang-gitops-project
-    patch: |-
-      - op: replace
-        path: /spec/replicas
-        value: 3
-      - op: replace
-        path: /spec/template/spec/containers/0/image
-        value: hegieswe/golang-gitops-project:latest
-      - op: replace
-        path: /spec/template/spec/containers/0/env/0/value
-        value: production
-      - op: replace
-        path: /spec/template/spec/containers/0/resources
-        value:
-          requests:
-            cpu: "100m"
-            memory: "128Mi"
-          limits:
-            cpu: "250m"
-            memory: "256Mi"
+resources:
+patches: []
+images: []
