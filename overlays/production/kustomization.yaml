@@ -15,7 +15,7 @@ patches:
   # Golang: replicas=3, image tag=latest, env=production
   - target:
       kind: Deployment
-      name: hello-golang
+      name: golang-gitops-project
     patch: |-
       - op: replace
         path: /spec/replicas
