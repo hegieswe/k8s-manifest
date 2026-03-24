@@ -6,9 +6,5 @@ labels:
       environment: development
     includeSelectors: false
 resources:
-  - ../../base/golang-gitops-project
 patches: []
-
-images:
-  - name: hegieswe/golang-gitops-project
-    newTag: "e0e0ff7"
+images: []
