@@ -47,18 +47,22 @@ if [[ "$ACTION" == "1" ]]; then
   if [[ "$IS_PROBE" =~ ^[Yy]$ ]]; then
     read -p "   => Endpoint pengecekan (default: /health): " HEALTH_ENDPOINT
     HEALTH_ENDPOINT=${HEALTH_ENDPOINT:-"/health"}
+    
+    read -p "   => Waktu tunggu awal / Initial Delay detik (default: 60): " PROBE_DELAY
+    PROBE_DELAY=${PROBE_DELAY:-60}
+    
     IFS= read -r -d '' PROBE_YAML <<EOF || true
           livenessProbe:
             httpGet:
               path: $HEALTH_ENDPOINT
               port: __PORT__
-            initialDelaySeconds: 15
+            initialDelaySeconds: $PROBE_DELAY
             periodSeconds: 20
           readinessProbe:
             httpGet:
               path: $HEALTH_ENDPOINT
               port: __PORT__
-            initialDelaySeconds: 10
+            initialDelaySeconds: $PROBE_DELAY
             periodSeconds: 10
 EOF
   fi
