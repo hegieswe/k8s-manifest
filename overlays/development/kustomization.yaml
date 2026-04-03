@@ -6,8 +6,5 @@ labels:
       environment: development
     includeSelectors: false
 resources:
-  - ../../base/hi-golang-project
 patches: []
-images:
-  - name: hegieswe/hi-golang-project
-    newTag: "00a1e9d"
+images: []
