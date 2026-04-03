@@ -11,6 +11,9 @@ resources:
 patches: []
 
 
+
 images:
   - name: hegieswe/golang-gitops-project
-    newTag: "6938e6c"
+    newTag: "9b209a5"
+  - name: hegieswe/hi-golang-project
+    newTag: "00a1e9d"
