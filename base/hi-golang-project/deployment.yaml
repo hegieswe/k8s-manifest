@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: golang-gitops-project
+  name: hi-golang-project
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: golang-gitops-project
+      app: hi-golang-project
   template:
     metadata:
       labels:
-        app: golang-gitops-project
+        app: hi-golang-project
     spec:
       containers:
-        - name: golang-gitops-project
-          image: hegieswe/golang-gitops-project:lates
+        - name: hi-golang-project
+          image: hegieswe/hi-golang-project:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -37,3 +37,4 @@ spec:
               port: 8080
             initialDelaySeconds: 60
             periodSeconds: 10
+

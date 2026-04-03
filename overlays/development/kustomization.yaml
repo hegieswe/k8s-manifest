@@ -6,6 +6,7 @@ labels:
       environment: development
     includeSelectors: false
 resources:
+  - ../../base/hi-golang-project
   - ../../base/golang-gitops-project
 patches: []
 
