@@ -9,6 +9,7 @@ resources:
   - ../../base/golang-gitops-project
 patches: []
 
+
 images:
   - name: hegieswe/golang-gitops-project
-    newTag: "3d69117"
+    newTag: "6938e6c"
