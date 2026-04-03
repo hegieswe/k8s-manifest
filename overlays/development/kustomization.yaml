@@ -7,13 +7,7 @@ labels:
     includeSelectors: false
 resources:
   - ../../base/hi-golang-project
-  - ../../base/golang-gitops-project
 patches: []
-
-
-
 images:
-  - name: hegieswe/golang-gitops-project
-    newTag: "9b209a5"
   - name: hegieswe/hi-golang-project
     newTag: "00a1e9d"
