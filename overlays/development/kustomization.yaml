@@ -9,4 +9,9 @@ resources:
   - ../../base/hello-world-service-python
   - ../../base/hello-world-service-java
 patches: []
-images: []
+
+images:
+  - name: hegieswe/hello-world-service-java
+    newTag: "7d7c2b8"
+  - name: hegieswe/hello-world-service-python
+    newTag: "5943fff"
