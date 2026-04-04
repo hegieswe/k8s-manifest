@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-service-python
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-world-service-python
+  template:
+    metadata:
+      labels:
+        app: hello-world-service-python
+    spec:
+      containers:
+        - name: hello-world-service-python
+          image: hegieswe/hello-world-service-python:3f6e5b8
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 60
+            periodSeconds: 10

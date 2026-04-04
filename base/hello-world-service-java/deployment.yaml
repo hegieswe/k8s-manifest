@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-service-java
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-world-service-java
+  template:
+    metadata:
+      labels:
+        app: hello-world-service-java
+    spec:
+      containers:
+        - name: hello-world-service-java
+          image: hegieswe/hello-world-service-java:7c836b3
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8201
+          resources:
+            requests:
+              cpu: "300m"
+              memory: "300Mi"
+            limits:
+              cpu: "600m"
+              memory: "600Mi"
+          livenessProbe:
+            httpGet:
+              path: /hello/v1/hi
+              port: 8201
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /hello/v1/hi
+              port: 8201
+            initialDelaySeconds: 60
+            periodSeconds: 10

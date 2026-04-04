@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-world-service-python
+spec:
+  selector:
+    app: hello-world-service-python
+  ports:
+    - port: 8000
+      targetPort: 8000
+      nodePort: 31805
+  type: NodePort
